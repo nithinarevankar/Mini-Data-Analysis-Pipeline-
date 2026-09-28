@@ -8,7 +8,7 @@ load_dotenv()
 
 DATA_DB_CONN = os.getenv("DB_CONN_ENV")
 
-SILVER_SCHEMA = "sliver"
+SILVER_SCHEMA = "silver"
 GOLD_SCHEMA = "gold"
 
 SOURCE_TABLE = [
@@ -103,9 +103,9 @@ def gold_transformation(data_engine, source_table):
             SELECT
                 "Category",
                 COUNT(*) AS count_method,
-                SUM("Total Spent") AS total_sales,
-                SUM("Quantity") AS total_quantity,
-                AVG("Total Spent") AS avg_order_value
+                SUM("Total Spent"::NUMERIC) AS total_sales,
+                SUM("Quantity"::NUMERIC) AS total_quantity,
+                AVG("Total Spent"::NUMERIC) AS avg_order_value
             FROM {SILVER_SCHEMA}.{source_table}
             GROUP BY "Category";
         """))
@@ -123,9 +123,9 @@ def gold_transformation(data_engine, source_table):
             SELECT
                 "Payment Method",
                 COUNT(*) AS count_method,
-                SUM("Total Spent") AS total_sales,
-                SUM("Quantity") AS total_quantity,
-                AVG("Total Spent") AS avg_order_value
+                SUM("Total Spent"::NUMERIC) AS total_sales,
+                SUM("Quantity"::NUMERIC) AS total_quantity,
+                AVG("Total Spent"::NUMERIC) AS avg_order_value
             FROM {SILVER_SCHEMA}.{source_table}
             GROUP BY "Payment Method";
         """))
@@ -143,9 +143,9 @@ def gold_transformation(data_engine, source_table):
             SELECT
                 "Item",
                 COUNT(*) AS count_method,
-                SUM("Total Spent") AS total_sales,
-                SUM("Quantity") AS total_quantity,
-                AVG("Total Spent") AS avg_order_value
+                SUM("Total Spent"::NUMERIC) AS total_sales,
+                SUM("Quantity"::NUMERIC) AS total_quantity,
+                AVG("Total Spent"::NUMERIC) AS avg_order_value
             FROM {SILVER_SCHEMA}.{source_table}
             GROUP BY "Item";
         """))
@@ -162,51 +162,15 @@ def gold_transformation(data_engine, source_table):
             SELECT
                 "Customer ID",
                 COUNT(*) AS count_method,
-                SUM("Total Spent") AS total_sales,
-                SUM("Quantity") AS total_quantity,
-                AVG("Total Spent") AS avg_order_value
+                SUM("Total Spent"::NUMERIC) AS total_sales,
+                SUM("Quantity"::NUMERIC) AS total_quantity,
+                AVG("Total Spent"::NUMERIC) AS avg_order_value
             FROM {SILVER_SCHEMA}.{source_table}
             GROUP BY "Customer ID";
         """))
 
 
-def summary(data_engine, source_table):
 
-    df = pd.read_sql(
-        f"""
-        SELECT *
-        FROM {SILVER_SCHEMA}.{source_table}
-        """,
-        data_engine
-    )
-
-    summary_df = pd.DataFrame([{
-
-        "total_revenue": df["Total Spent"].sum(),
-
-        "transaction_total": df["Transaction ID"].count(),
-
-        "total_quantity_sold": df["Quantity"].sum(),
-
-        "avg_order_value": df["Total Spent"].mean(),
-
-        "avg_quantity": df["Quantity"].mean(),
-
-        "unique_cus": df["Customer ID"].nunique(),
-
-        "uni_items": df["Item"].nunique()
-
-    }])
-
-    summary_df.to_sql(
-        "gold_summary",
-        data_engine,
-        schema=GOLD_SCHEMA,
-        if_exists="replace",
-        index=False,
-        method="multi",
-        chunksize=5000
-    )
 
 def meta_data(data_engine,source_table):
     with data_engine.begin() as conn:
@@ -228,10 +192,7 @@ def main():
 
             table_creation(data_engine)
 
-            summary(
-                data_engine,
-                source_table
-            )
+          
 
             gold_transformation(
                 data_engine,
