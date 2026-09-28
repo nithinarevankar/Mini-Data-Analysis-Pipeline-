@@ -1,0 +1,44 @@
+{"timestamp":"2026-09-28T09:13:13.814860Z","level":"info","event":"::group::Pre Execute","logger":"task","filename":"task_runner.py","lineno":2412}
+{"timestamp":"2026-09-28T09:13:13.828193Z","level":"info","event":"DAG bundles loaded: dags-folder","task_id":"silver_load","map_index":-1,"try_number":1,"ti_id":"01a0e74a-26b2-7f95-86e6-899c56bd13c0","dag_id":"data_pipeline","run_id":"manual__2026-09-28T09:13:11.588560+00:00","logger":"airflow.dag_processing.bundles.manager.DagBundlesManager","filename":"manager.py","lineno":304}
+{"timestamp":"2026-09-28T09:13:13.831276Z","level":"info","event":"Filling up the DagBag from /opt/airflow/dags/data_pipeline.py","task_id":"silver_load","map_index":-1,"try_number":1,"ti_id":"01a0e74a-26b2-7f95-86e6-899c56bd13c0","dag_id":"data_pipeline","run_id":"manual__2026-09-28T09:13:11.588560+00:00","logger":"airflow.dag_processing.dagbag.BundleDagBag","filename":"dagbag.py","lineno":460}
+{"timestamp":"2026-09-28T09:13:14.171223Z","level":"info","event":"Worker startup parse complete","bundle_name":"dags-folder","bundle_version":null,"dag_file":"data_pipeline.py","dag_id":"data_pipeline","bundle_prepare_ms":3,"dag_file_parse_ms":340,"task_id":"silver_load","map_index":-1,"try_number":1,"ti_id":"01a0e74a-26b2-7f95-86e6-899c56bd13c0","run_id":"manual__2026-09-28T09:13:11.588560+00:00","logger":"task","filename":"task_runner.py","lineno":1073}
+{"timestamp":"2026-09-28T09:13:14.191760Z","level":"info","event":"::endgroup::","task_id":"silver_load","map_index":-1,"try_number":1,"ti_id":"01a0e74a-26b2-7f95-86e6-899c56bd13c0","dag_id":"data_pipeline","run_id":"manual__2026-09-28T09:13:11.588560+00:00","logger":"task","filename":"task_runner.py","lineno":2232}
+{"timestamp":"2026-09-28T09:13:14.322046Z","level":"info","event":"","logger":"task.stdout"}
+{"timestamp":"2026-09-28T09:13:14.322621Z","level":"info","event":" data before cleaning","logger":"task.stdout"}
+{"timestamp":"2026-09-28T09:13:14.322921Z","level":"info","event":"","logger":"task.stdout"}
+{"timestamp":"2026-09-28T09:13:14.333508Z","level":"info","event":"            column               dtype  missing_count  missing_percentage  unique_values","logger":"task.stdout"}
+{"timestamp":"2026-09-28T09:13:14.334123Z","level":"info","event":"    Transaction ID                 str              0            0.000000          12575","logger":"task.stdout"}
+{"timestamp":"2026-09-28T09:13:14.334559Z","level":"info","event":"       Customer ID                 str              0            0.000000             25","logger":"task.stdout"}
+{"timestamp":"2026-09-28T09:13:14.334849Z","level":"info","event":"          Category                 str              0            0.000000              8","logger":"task.stdout"}
+{"timestamp":"2026-09-28T09:13:14.335165Z","level":"info","event":"              Item                 str           1213            9.646123            200","logger":"task.stdout"}
+{"timestamp":"2026-09-28T09:13:14.335428Z","level":"info","event":"    Price Per Unit             float64            609            4.842942             25","logger":"task.stdout"}
+{"timestamp":"2026-09-28T09:13:14.335664Z","level":"info","event":"          Quantity             float64            604            4.803181             10","logger":"task.stdout"}
+{"timestamp":"2026-09-28T09:13:14.335981Z","level":"info","event":"       Total Spent             float64            604            4.803181            227","logger":"task.stdout"}
+{"timestamp":"2026-09-28T09:13:14.336237Z","level":"info","event":"    Payment Method                 str              0            0.000000              3","logger":"task.stdout"}
+{"timestamp":"2026-09-28T09:13:14.336590Z","level":"info","event":"          Location                 str              0            0.000000              2","logger":"task.stdout"}
+{"timestamp":"2026-09-28T09:13:14.336844Z","level":"info","event":"  Transaction Date                 str              0            0.000000           1114","logger":"task.stdout"}
+{"timestamp":"2026-09-28T09:13:14.337115Z","level":"info","event":"  Discount Applied              object           4199           33.391650              2","logger":"task.stdout"}
+{"timestamp":"2026-09-28T09:13:14.337407Z","level":"info","event":"source_loaded_time datetime64[us, UTC]              0            0.000000              1","logger":"task.stdout"}
+{"timestamp":"2026-09-28T09:13:14.337689Z","level":"info","event":"         loaded_at datetime64[us, UTC]              0            0.000000              1","logger":"task.stdout"}
+{"timestamp":"2026-09-28T09:13:14.337936Z","level":"info","event":"            source                 str              0            0.000000              1","logger":"task.stdout"}
+{"timestamp":"2026-09-28T09:13:14.354452Z","level":"info","event":"","logger":"task.stdout"}
+{"timestamp":"2026-09-28T09:13:14.354989Z","level":"info","event":" data after cleaning","logger":"task.stdout"}
+{"timestamp":"2026-09-28T09:13:14.355403Z","level":"info","event":"","logger":"task.stdout"}
+{"timestamp":"2026-09-28T09:13:14.361523Z","level":"info","event":"            column               dtype  missing_count  missing_percentage  unique_values","logger":"task.stdout"}
+{"timestamp":"2026-09-28T09:13:14.361955Z","level":"info","event":"    Transaction ID                 str              0                 0.0          11966","logger":"task.stdout"}
+{"timestamp":"2026-09-28T09:13:14.362361Z","level":"info","event":"       Customer ID                 str              0                 0.0             25","logger":"task.stdout"}
+{"timestamp":"2026-09-28T09:13:14.362746Z","level":"info","event":"          Category                 str              0                 0.0              8","logger":"task.stdout"}
+{"timestamp":"2026-09-28T09:13:14.362988Z","level":"info","event":"              Item                 str              0                 0.0            200","logger":"task.stdout"}
+{"timestamp":"2026-09-28T09:13:14.363298Z","level":"info","event":"    Price Per Unit             float64              0                 0.0             25","logger":"task.stdout"}
+{"timestamp":"2026-09-28T09:13:14.363593Z","level":"info","event":"          Quantity             float64              0                 0.0             10","logger":"task.stdout"}
+{"timestamp":"2026-09-28T09:13:14.363832Z","level":"info","event":"       Total Spent             float64              0                 0.0            227","logger":"task.stdout"}
+{"timestamp":"2026-09-28T09:13:14.364064Z","level":"info","event":"    Payment Method                 str              0                 0.0              3","logger":"task.stdout"}
+{"timestamp":"2026-09-28T09:13:14.364380Z","level":"info","event":"          Location                 str              0                 0.0              2","logger":"task.stdout"}
+{"timestamp":"2026-09-28T09:13:14.364735Z","level":"info","event":"  Transaction Date                 str              0                 0.0           1114","logger":"task.stdout"}
+{"timestamp":"2026-09-28T09:13:14.365008Z","level":"info","event":"  Discount Applied              object              0                 0.0              2","logger":"task.stdout"}
+{"timestamp":"2026-09-28T09:13:14.365265Z","level":"info","event":"source_loaded_time datetime64[us, UTC]              0                 0.0              1","logger":"task.stdout"}
+{"timestamp":"2026-09-28T09:13:14.365475Z","level":"info","event":"         loaded_at datetime64[us, UTC]              0                 0.0              1","logger":"task.stdout"}
+{"timestamp":"2026-09-28T09:13:14.365777Z","level":"info","event":"            source                 str              0                 0.0              1","logger":"task.stdout"}
+{"timestamp":"2026-09-28T09:13:25.269139Z","level":"info","event":"Done. Returned value was: None","task_id":"silver_load","map_index":-1,"try_number":1,"ti_id":"01a0e74a-26b2-7f95-86e6-899c56bd13c0","dag_id":"data_pipeline","run_id":"manual__2026-09-28T09:13:11.588560+00:00","logger":"airflow.task.operators.airflow.providers.standard.decorators.python._PythonDecoratedOperator","filename":"python.py","lineno":233}
+{"timestamp":"2026-09-28T09:13:25.269355Z","level":"info","event":"::group::Post Execute","task_id":"silver_load","map_index":-1,"try_number":1,"ti_id":"01a0e74a-26b2-7f95-86e6-899c56bd13c0","dag_id":"data_pipeline","run_id":"manual__2026-09-28T09:13:11.588560+00:00","logger":"task","filename":"task_runner.py","lineno":1580}
+{"timestamp":"2026-09-28T09:13:25.285085Z","level":"info","event":"::endgroup::","task_id":"silver_load","map_index":-1,"try_number":1,"ti_id":"01a0e74a-26b2-7f95-86e6-899c56bd13c0","dag_id":"data_pipeline","run_id":"manual__2026-09-28T09:13:11.588560+00:00","logger":"task","filename":"task_runner.py","lineno":2379}
