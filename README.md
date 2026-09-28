@@ -1,219 +1,131 @@
+<div align="center">
 
 # 🚀 Mini Data Analysis Pipeline
 
-A small end-to-end data engineering project built to understand how data moves from raw data to an analytics-ready format.
+**An end-to-end data pipeline that turns raw data into analytics-ready tables using a Bronze → Silver → Gold architecture, PostgreSQL, and Apache Airflow.**
 
-The main goal of this project is to practice **Python, PostgreSQL, SQL, Airflow, ETL/ELT, incremental loading, and data warehouse concepts**.
+[🏗️ Architecture](#architecture) | [✨ Features](#key-features) | [🚀 Getting Started](#getting-started) | [🗺️ Roadmap](#roadmap)
 
----
+![Status](https://img.shields.io/badge/status-in%20progress-yellow)
+![Last commit](https://img.shields.io/github/last-commit/nithinarevankar/Mini-Data-Analysis-Pipeline-)
+![Stars](https://img.shields.io/github/stars/nithinarevankar/Mini-Data-Analysis-Pipeline-?style=flat)
 
-## 🏗️ Architecture
+![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?logo=postgresql&logoColor=white)
+![Airflow](https://img.shields.io/badge/Airflow-017CEE?logo=apacheairflow&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white)
+![Power BI](https://img.shields.io/badge/Power%20BI-F2C811?logo=powerbi&logoColor=black)
 
-```text
-              📁 Source Data
-                   │
-                   ▼
-             🐍 Python
-            Data Loading
-                   │
-                   ▼
-            🥉 Bronze Layer
-            Raw / Clean Data
-                   │
-                   ▼
-            🥈 Silver Layer
-          Transformed Data
-                   │
-                   ▼
-             🥇 Gold Layer
-          Analytics / Star Schema
-                   │
-                   ▼
-             📊 Power BI
-
-The pipeline can be automated using Apache Airflow.
-
-⏰ Airflow Scheduler
-        │
-        ▼
-   Load Source Data
-        │
-        ▼
-   Bronze → Silver
-        │
-        ▼
-   Silver → Gold
-        │
-        ▼
-   📊 Analytics
-
+</div>
 
 ---
 
-🛠️ Tech Stack
+## What is this?
 
-🐍 Python
+A small end-to-end data engineering project that moves raw data through a medallion architecture (Bronze → Silver → Gold) into an analytics-ready star schema, orchestrated with Apache Airflow.
 
-🐼 Pandas
-
-🐘 PostgreSQL
-
-🔄 Apache Airflow
-
-🧮 SQL
-
-📊 Power BI
-
-🐳 Docker
-
-🌱 Git & GitHub
-
-
+> **Status:** In progress. Transformations, data quality checks, and dashboards are being added incrementally.
 
 ---
 
-📂 Project Structure
+## Overview
 
-Mini-Data-Analysis-Pipeline/
-│
+This project practices the core building blocks of a modern data pipeline: loading source data with Python, storing it in PostgreSQL, transforming it with SQL, and automating the whole flow with Airflow. The Gold layer is designed to feed BI tools such as Power BI.
+
+## Architecture
+
+```
+Source Data
+    │
+    ▼
+Python (extract + load)
+    │
+    ▼
+Bronze  →  Silver  →  Gold
+ raw       cleaned    star schema
+                          │
+                          ▼
+                      Power BI
+```
+
+Airflow schedules and runs each stage in order: **load → Bronze to Silver → Silver to Gold**.
+
+| Layer  | Purpose                                   |
+| ------ | ----------------------------------------- |
+| Bronze | Raw data, loaded as-is from the source    |
+| Silver | Cleaned, typed, and transformed data      |
+| Gold   | Analytics-ready tables (star schema)      |
+
+## Key Features
+
+- **Medallion architecture** with clear separation between raw, cleaned, and analytics layers
+- **Incremental loading** using a watermark stored in a metadata table, so only new data is processed on each run
+- **Idempotent runs**: re-running the pipeline does not create duplicates
+- **Orchestration** with Airflow DAGs
+- **Containerized setup** with Docker Compose
+
+## Tech Stack
+
+Python · Pandas · PostgreSQL · SQL · Apache Airflow · Docker · Power BI
+
+## Project Structure
+
+```
+.
 ├── config/              # Configuration files
-│
-├── dags/                # Airflow DAGs
-│
+├── dags/                # Airflow DAG definitions
 ├── src/
-│   └── airflow/         # Python pipeline code
-│
-├── logs/                # Airflow logs (ignored by Git)
-│
-├── .env                 # Environment variables (not committed)
-├── .gitignore
-├── docker-compose.yaml
-├── pyproject.toml
+│   └── airflow/         # Pipeline code (load and transform logic)
+├── docker-compose.yaml  # Airflow + Postgres services
+├── pyproject.toml       # Python dependencies (managed with uv)
 └── README.md
 ```
----
 
-🔄 Data Pipeline
+## Getting Started
 
-1️⃣ Extract
+### Prerequisites
 
-Source data is collected and loaded using Python.
+- Docker and Docker Compose
+- Python (version in `.python-version`) and [uv](https://docs.astral.sh/uv/)
 
-2️⃣ Bronze
+### Setup
 
-The raw data is stored in the Bronze layer.
+```bash
+# 1. Clone the repository
+git clone https://github.com/nithinarevankar/Mini-Data-Analysis-Pipeline-.git
+cd Mini-Data-Analysis-Pipeline-
 
-3️⃣ Silver
+# 2. Install dependencies
+uv sync
 
-Data is cleaned and transformed using Python/SQL.
+# 3. Create a .env file with your database credentials
+#    (see config/ for the expected variables)
 
-4️⃣ Gold
+# 4. Start the services
+docker compose up -d
+```
 
-The transformed data is organized for analytics and reporting.
+Then open the Airflow UI (by default at `http://localhost:8080`) and trigger the DAG from the `dags/` folder.
 
-5️⃣ Visualization
+## How Incremental Loading Works
 
-The Gold layer can be connected to Power BI for dashboards and analysis.
+1. Read the last successful watermark from the metadata table
+2. Load only records newer than that watermark
+3. Update the watermark after a successful load
 
+This keeps runs fast and safe to repeat.
 
----
+## Roadmap
 
-⚡ Incremental Loading
+- [ ] Add data quality checks between layers
+- [ ] Add more Silver and Gold transformations
+- [ ] Publish a Power BI dashboard with screenshots
+- [ ] Add automated tests
 
-The pipeline uses a watermark / metadata approach to avoid processing the same data repeatedly.
+## What I Learned
 
-The last successfully loaded value is stored in a metadata table.
+ETL/ELT design, SQL transformations, star schema modeling, incremental loading, idempotency, Airflow orchestration, and Docker-based local environments.
 
-New Data
-   │
-   ▼
-Check Last Watermark
-   │
-   ▼
-Load Only New Data
-   │
-   ▼
-Update Watermark
+## Author
 
-This makes the pipeline more efficient and helps with idempotent processing.
-
-
----
-
-🗄️ Database Layers
-
-The project follows a simple medallion-style architecture:
-
-Layer	Purpose
-
-🥉 Bronze	Raw / initial data
-🥈 Silver	Cleaned and transformed data
-🥇 Gold	Analytics-ready data
-
-
-
----
-
-📊 Analytics
-
-The Gold layer is designed to provide data that can be easily used for:
-
-📈 EDA
-
-📊 Dashboards
-
-🔎 Business analysis
-
-📋 Reports
-
-📌 KPI calculations
-
-
-
----
-
-🎯 What I'm Learning
-
-This project is mainly for learning and practicing:
-
-ETL pipelines
-
-Data cleaning
-
-SQL transformations
-
-PostgreSQL
-
-Data warehouse concepts
-
-Star schema
-
-Incremental loading
-
-Watermarks
-
-Idempotency
-
-Airflow orchestration
-
-Docker
-
-Git/GitHub
-
-
-
----
-
-🚧 Current Status
-
-🟢 Pipeline development in progress.
-
-I'm gradually adding more transformations, automation, data quality checks, and analytics features.
-
-👨‍💻 About
-
-This is a personal learning project where I'm building a complete data pipeline from source data to analytics.
-
-Built while learning Data Engineering and Analytics.
-
-⭐ Feel free to explore the project!
+**Nithin** · [GitHub](https://github.com/nithinarevankar)
