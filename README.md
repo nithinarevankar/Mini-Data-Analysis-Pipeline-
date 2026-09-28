@@ -90,7 +90,7 @@ Mini-Data-Analysis-Pipeline/
 ├── docker-compose.yaml
 ├── pyproject.toml
 └── README.md
-
+```
 ---
 
 🔄 Data Pipeline
