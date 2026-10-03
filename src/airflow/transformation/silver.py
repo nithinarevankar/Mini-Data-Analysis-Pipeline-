@@ -62,23 +62,17 @@ def get_last_watermark(data_engine):
 
 def cleaning(data):
     data = data.copy()
-    for col in data.columns:
-       
-        null_per = data[col].isnull().mean() * 100
-        if null_per < 5:
-            data.dropna(subset=[col], inplace=True)
-           
-        else:
-            if data[col].dtype in ['int64', 'float64']:
-                data[col] = data[col].fillna(data[col].median())
-                
-            else:
-                data[col] = data[col].fillna(data[col].mode()[0])
+    price_recover =(
+    data['Price Per Unit'].isna()& \
+    data['Quantity'].notna()& \
+    data['Total Spent'].notna()
+)
+    data.loc[price_recover,'Price Per Unit'] = (data.loc[price_recover,'Total Spent']/data.loc[price_recover, "Quantity"])
     log.info(len(data))
     return data
 
-def eda_report(df):
 
+def eda_report(df):
     summary = pd.DataFrame({
         "column": df.columns,
         "dtype": df.dtypes.values,
