@@ -70,7 +70,33 @@ def cleaning(data):
     data.loc[price_recover,'Price Per Unit'] = (data.loc[price_recover,'Total Spent']/data.loc[price_recover, "Quantity"])
     log.info(len(data))
     return data
+def recovery(data):
+     data = data.copy()
+     observe = sorted(data['Price Per Unit'].dropna().unique())
+     price_to_number = {float(price): i+1 for i,price in enumerate(observe)}
 
+     category_codes ={
+    "Beverages" : "BEV",
+    "Food" : 'FOOD',
+    'Milk Products' : 'MILK',
+    'Butchers' : 'BUT',
+    'Patisserie' : 'PAT',
+    'Furniture' : 'FUR',
+    'Electric household essentials' : 'EHE',
+    'Computers and electric accessories' : 'CEA'
+ }
+
+     item_recovered =(
+     data['Item'].isna()& data['Price Per Unit'].notna() & data['Category'].isin(category_codes)
+    )
+     def item(row):
+        item_no = price_to_number.get(float(row['Price Per Unit']))
+        codes = category_codes.get(row['Category'])
+        if item_no is None or codes is None:
+          return pd.Na
+        return f"Item_{item_no}_{codes}"
+     data.loc[item_recovered,'Item'] = data[item_recovered].apply(item,axis=1)
+     return data
 
 def eda_report(df):
     summary = pd.DataFrame({
@@ -95,6 +121,7 @@ def main():
              else:
                   print(f"data before cleaning \n{eda_report(data)}")
                   data=cleaning(data)
+                  data = recovery(data)
                   print(f"data after cleaning \n{eda_report(data)}")
                   size,time =load(data_engine,data,source_table=source_table)
                   metadata_insert(data_engine,size=size,watermark=time)
